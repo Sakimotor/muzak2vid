@@ -2,7 +2,7 @@ echo "Before usage : insert an image in the current folder and name it \"image.p
 
 if  [ $# -eq 0 ]
 then
-	echo "Select your audio type : 0=FLAC, 1=MP3, 2=OGG, 3=WAV";
+	echo "Select your audio type : 0=FLAC, 1=MP3, 2=OGG, 3=WAV, 4=M4A";
 	read id;
 else
 	id=$1;
@@ -35,10 +35,18 @@ then
 		echo "$j"
 		ffmpeg -y -framerate 3 -loop 1  -i "image.png" -i "$i" -shortest -movflags faststart -c:v libx264 -profile:v high -bf 2 -g 5 -crf 18 -pix_fmt yuv420p -c:a aac -ac 2 -ar 48000 -b:a 320k "$j".mp4
 	done
-else
+elif [ $id -eq 3 ]
+then
 	for i in *.wav;
 		do
 		j=$(echo $i | sed -e "s/\.wav//")
+		echo "$j"
+		ffmpeg -y -framerate 3 -loop 1  -i "image.png" -i "$i" -shortest -movflags faststart -c:v libx264 -profile:v high -bf 2 -g 5 -crf 18 -pix_fmt yuv420p -c:a aac -ac 2 -ar 48000 -b:a 320k "$j".mp4
+	done
+else
+	for i in *.m4a;
+		do
+		j=$(echo $i | sed -e "s/\.m4a//")
 		echo "$j"
 		ffmpeg -y -framerate 3 -loop 1  -i "image.png" -i "$i" -shortest -movflags faststart -c:v libx264 -profile:v high -bf 2 -g 5 -crf 18 -pix_fmt yuv420p -c:a aac -ac 2 -ar 48000 -b:a 320k "$j".mp4
 	done
